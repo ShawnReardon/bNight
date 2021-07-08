@@ -277,7 +277,9 @@ game.onUpdateInterval(1000, function () {
 })
 forever(function () {
     for (let value2 of sprites.allOfKind(SpriteKind.Enemy)) {
-        if (tiles.locationXY(tiles.locationOfSprite(Blood_Warrior), tiles.XY.column) - tiles.locationXY(tiles.locationOfSprite(value2), tiles.XY.column) == 5 || tiles.locationXY(tiles.locationOfSprite(Blood_Warrior), tiles.XY.row) - tiles.locationXY(tiles.locationOfSprite(value2), tiles.XY.row) == 5) {
+        console.log(tiles.locationXY(tiles.locationOfSprite(Blood_Warrior), tiles.XY.row))
+        console.log("")
+        if (tiles.locationXY(tiles.locationOfSprite(Blood_Warrior), tiles.XY.row) - tiles.locationXY(tiles.locationOfSprite(value2), tiles.XY.row) - 5 == 0 || tiles.locationXY(tiles.locationOfSprite(Blood_Warrior), tiles.XY.row) - tiles.locationXY(tiles.locationOfSprite(value2), tiles.XY.row) + 5 == 0 || tiles.locationXY(tiles.locationOfSprite(Blood_Warrior), tiles.XY.column) == tiles.locationXY(tiles.locationOfSprite(value2), tiles.XY.column)) {
             value2.follow(Blood_Warrior, randint(20, 50))
         } else {
         	
