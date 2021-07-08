@@ -82,6 +82,17 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     Blood_Warrior.setImage(assets.image`left`)
 })
+info.onLifeZero(function () {
+    setup()
+})
+function setup () {
+    for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
+        value.destroy()
+    }
+    info.setLife(3)
+    spawnCounter = 0
+    tiles.placeOnTile(Blood_Warrior, tiles.getTileLocation(col[lvl], row[lvl]))
+}
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     otherSprite.destroy()
     info.changeLifeBy(1)
@@ -94,6 +105,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 let Disembodied_Soul: Sprite = null
 let spawnCounter = 0
 let Rotting: Sprite = null
+let row: number[] = []
+let col: number[] = []
+let lvl = 0
 let Blood_Warrior: Sprite = null
 Blood_Warrior = sprites.create(assets.image`Undead Warrior`, SpriteKind.Player)
 Blood_Warrior.setPosition(27, 5)
@@ -224,6 +238,10 @@ scene.setBackgroundImage(img`
     cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
     `)
 tiles.setTilemap(tilemap`level1`)
+lvl = 0
+col = [1, 47, 24, 2, 47]
+row = [0, 2, 23, 47, 47]
+setup()
 game.onUpdateInterval(1000, function () {
     if (spawnCounter < 5) {
         for (let value of tiles.getTilesByType(assets.tile`myTile1`)) {
