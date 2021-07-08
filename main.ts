@@ -83,19 +83,26 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     Blood_Warrior.setImage(assets.image`left`)
 })
 info.onLifeZero(function () {
-    setup()
+    setup(true)
 })
-function setup () {
+function setup (isRespawn: boolean) {
     for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
         value.destroy()
     }
-    info.setLife(3)
+    if (isRespawn) {
+        info.setLife(3)
+    }
     spawnCounter = 0
     tiles.placeOnTile(Blood_Warrior, tiles.getTileLocation(col[lvl], row[lvl]))
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     otherSprite.destroy()
     info.changeLifeBy(1)
+})
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.stairLarge, function (sprite, location) {
+    tiles.setTileAt(location, sprites.dungeon.darkGroundNorthWest1)
+    lvl += 1
+    setup(false)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     otherSprite.destroy()
@@ -241,7 +248,7 @@ tiles.setTilemap(tilemap`level1`)
 lvl = 0
 col = [1, 47, 24, 2, 47]
 row = [0, 2, 23, 47, 47]
-setup()
+setup(true)
 game.onUpdateInterval(1000, function () {
     if (spawnCounter < 5) {
         for (let value of tiles.getTilesByType(assets.tile`myTile1`)) {
